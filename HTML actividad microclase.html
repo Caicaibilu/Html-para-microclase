@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Microclase - Diego Portales y Constitución de 1833</title>
+    <style>
+        /* ── Reset y estilos base ── */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f2f0eb;
+            color: #1e1e1e;
+            padding: 16px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 24px 20px 32px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            margin: 0 auto;
+        }
+
+        /* ── Tipografía adaptada a tablet ── */
+        h1, h2, h3, p, li, button, label, input, textarea {
+            font-family: inherit;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e3a5f;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitulo {
+            font-size: 1rem;
+            color: #4a5b6e;
+            font-weight: 400;
+            margin-bottom: 20px;
+            border-left: 4px solid #b0c4d9;
+            padding-left: 14px;
+        }
+
+        .objetivo {
+            background: #eef4fa;
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 24px;
+            border-left: 6px solid #1e3a5f;
+        }
+
+        .objetivo p {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1a2c44;
+            margin: 0;
+        }
+
+        .objetivo span {
+            font-weight: 700;
+        }
+
+        /* ── Instrucciones ── */
+        .instrucciones {
+            background: #f8f5ef;
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 28px;
+            border: 1px solid #e0d8cc;
+        }
+
+        .instrucciones h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3e5a;
+            margin-bottom: 8px;
+        }
+
+        .instrucciones ul {
+            padding-left: 22px;
+            margin: 6px 0 0;
+        }
+
+        .instrucciones li {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 4px;
+            color: #2d3e5a;
+        }
+
+        /* ── Tarjetas de actividad ── */
+        .actividad {
+            background: #faf9f7;
+            border-radius: 24px;
+            padding: 20px 18px;
+            margin-bottom: 24px;
+            border: 1px solid #e6e1d9;
+            transition: border 0.2s;
+        }
+
+        .actividad:last-of-type {
+            margin-bottom: 20px;
+        }
+
+        .actividad h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .actividad h2 .badge {
+            background: #1e3a5f;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .actividad p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #2d3e5a;
+            margin-bottom: 14px;
+        }
+
+        /* ── Línea de tiempo (orden con flechas) ── */
+        .timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 10px 0 8px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid #d6d0c4;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            transition: background 0.15s;
+        }
+
+        .timeline-item .evento-texto {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1e2f40;
+            flex: 1;
+        }
+
+        .timeline-item .orden-acciones {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        .btn-flecha {
+            background: #e9e5de;
+            border: none;
+            border-radius: 30px;
+            width: 48px;
+            height: 48px;
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: #1e3a5f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: background 0.15s, transform 0.1s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .btn-flecha:active {
+            transform: scale(0.94);
+            background: #d5cdc0;
+        }
+
+        .btn-flecha:disabled {
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        /* ── Pregunta abierta ── */
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 14px 16px;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 16px;
+            border: 1px solid #d6d0c4;
+            background: white;
+            resize: vertical;
+            font-family: inherit;
+            color: #1e1e1e;
+            transition: border 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #1e3a5f;
+            box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.15);
+        }
+
+        /* ── Verdadero / Falso ── */
+        .vf-item {
+            background: white;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border: 1px solid #d6d0c4;
+        }
+
+        .vf-item p {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #1e2f40;
+        }
+
+        .vf-botones {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-vf {
+            flex: 1;
+            padding: 14px 8px;
+            border-radius: 40px;
+            border: 2px solid #d6d0c4;
+            background: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e3a5f;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: all 0.15s;
+            text-align: center;
+            min-height: 56px;
+        }
+
+        .btn-vf:active {
+            transform: scale(0.96);
+        }
+
+        .btn-vf.seleccionado {
+            border-color: #1e3a5f;
+            background: #eef4fa;
+        }
+
+        .btn-vf.correcto {
+            border-color: #2a7a4b;
+            background: #e1f3e8;
+            color: #1a5a33;
+        }
+
+        .btn-vf.incorrecto {
+            border-color: #b13e3e;
+            background: #fde8e8;
+            color: #8f2a2a;
+        }
+
+        .btn-vf:disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* ── Botón revisar ── */
+        .btn-revisar {
+            background: #1e3a5f;
+            border: none;
+            border-radius: 60px;
+            padding: 18px 24px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: background 0.15s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.25);
+            margin-top: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-revisar:active {
+            transform: scale(0.97);
+            background: #143049;
+        }
+
+        /* ── Feedback de corrección ── */
+        .feedback {
+            margin-top: 16px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: #f0f2f5;
+            border-left: 6px solid #1e3a5f;
+            display: none;
+        }
+
+        .feedback.visible {
+            display: block;
+        }
+
+        .feedback p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .feedback .acierto {
+            color: #1a7a4a;
+            font-weight: 600;
+        }
+
+        .feedback .error {
+            color: #b13e3e;
+            font-weight: 600;
+        }
+
+        /* ── Estados de corrección en timeline ── */
+        .timeline-item.correcto {
+            border-color: #2a7a4b;
+            background: #e7f3ec;
+        }
+
+        .timeline-item.incorrecto {
+            border-color: #b13e3e;
+            background: #fde8e8;
+        }
+
+        /* ── Separadores ── */
+        hr {
+            border: none;
+            border-top: 1px solid #e0d8cc;
+            margin: 6px 0 18px;
+        }
+
+        /* ── Ajustes para tablets pequeños ── */
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .container { padding: 16px 14px; border-radius: 24px; }
+            h1 { font-size: 1.5rem; }
+            .btn-flecha { width: 44px; height: 44px; font-size: 1.4rem; }
+            .btn-vf { font-size: 1rem; min-height: 50px; padding: 12px 8px; }
+            .btn-revisar { font-size: 1rem; padding: 16px 20px; }
+            textarea { min-height: 100px; font-size: 0.95rem; }
+        }
+
+        /* ── Modo alto contraste (para inclusividad) ── */
+        @media (prefers-contrast: high) {
+            .actividad { border-width: 2px; }
+            .btn-flecha { border: 2px solid #1e3a5f; }
+            .btn-vf { border-width: 3px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ===== ENCABEZADO ===== -->
+    <h1>📜 República Conservadora</h1>
+    <div class="subtitulo">Diego Portales · Constitución de 1833 · Batalla de Lircay</div>
+
+    <!-- ===== OBJETIVO DE LA CLASE ===== -->
+    <div class="objetivo">
+        <p><span>🎯 Objetivo de la clase:</span> Analizar las características de la república conservadora, comprendiendo cómo la constitución de 1833 y las ideas de Portales contribuyeron a la organización del país.</p>
+    </div>
+
+    <!-- ===== INSTRUCCIONES ===== -->
+    <div class="instrucciones">
+        <h3>📋 Instrucciones</h3>
+        <ul>
+            <li><strong>Actividad 1:</strong> Ordena los eventos históricos usando las flechas ↑ y ↓.</li>
+            <li><strong>Actividad 2:</strong> Responde la pregunta abierta con tu reflexión personal.</li>
+            <li><strong>Actividad 3:</strong> Indica si cada enunciado es Verdadero (V) o Falso (F).</li>
+            <li>Al final, presiona <strong>"🔍 Revisar respuestas"</strong> para ver tus aciertos en la línea de tiempo y el V/F. Tu respuesta abierta se conservará.</li>
+        </ul>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ACTIVIDAD 1: LÍNEA DE TIEMPO (ORDENAR) -->
+    <!-- ============================================================ -->
+    <div class="actividad" id="actividad-timeline">
+        <h2><span class="badge">1</span> Línea de tiempo</h2>
+        <p>Ordena cronológicamente los siguientes acontecimientos (del más antiguo al más reciente) usando las flechas.</p>
+        <div class="timeline-list" id="timeline-list">
+            <!-- Los elementos se generan con JS para mantener orden inicial desordenado -->
+        </div>
+        <div style="margin-top: 8px; font-size: 0.85rem; color: #5f6f80;">
+            💡 Pista: La Batalla de Lircay ocurrió antes que la Constitución.
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ACTIVIDAD 2: PREGUNTA ABIERTA -->
+    <!-- ============================================================ -->
+    <div class="actividad" id="actividad-pregunta">
+        <h2><span class="badge">2</span> Pregunta reflexiva</h2>
+        <p><strong>¿De qué manera crees que la Constitución de 1833 y la figura de Diego Portales influyeron en la organización del país?</strong></p>
+        <p style="font-size: 0.9rem; color: #4a5b6e; margin-top: -8px; margin-bottom: 12px;">Escribe tu respuesta con tus propias palabras (no será calificada automáticamente).</p>
+        <textarea id="respuesta-abierta" placeholder="Escribe aquí tu reflexión..."></textarea>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ACTIVIDAD 3: VERDADERO / FALSO -->
+    <!-- ============================================================ -->
+    <div class="actividad" id="actividad-vf">
+        <h2><span class="badge">3</span> Verdadero o Falso</h2>
+        <p>Selecciona V (Verdadero) o F (Falso) para cada afirmación.</p>
+
+        <div class="vf-item" data-idx="0">
+            <p>1. Diego Portales solo inició su influencia en la república a partir de la Batalla de Lircay.</p>
+            <div class="vf-botones">
+                <button class="btn-vf" data-vf="V">Verdadero</button>
+                <button class="btn-vf" data-vf="F">Falso</button>
+            </div>
+        </div>
+
+        <div class="vf-item" data-idx="1">
+            <p>2. La Constitución de 1833 creó un poder presidencial personalista, basado en la persona que se encuentre en el poder.</p>
+            <div class="vf-botones">
+                <button class="btn-vf" data-vf="V">Verdadero</button>
+                <button class="btn-vf" data-vf="F">Falso</button>
+            </div>
+        </div>
+
+        <div class="vf-item" data-idx="2">
+            <p>3. La Batalla de Lircay significó el comienzo del período conservador en Chile.</p>
+            <div class="vf-botones">
+                <button class="btn-vf" data-vf="V">Verdadero</button>
+                <button class="btn-vf" data-vf="F">Falso</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== BOTÓN REVISAR ===== -->
+    <button class="btn-revisar" id="btn-revisar">🔍 Revisar respuestas</button>
+
+    <!-- ===== FEEDBACK DE CORRECCIÓN ===== -->
+    <div class="feedback" id="feedback">
+        <p><strong>📊 Resultados:</strong></p>
+        <div id="feedback-contenido"></div>
+    </div>
+
+    <hr>
+    <p style="font-size: 0.75rem; color: #8a9aaa; text-align: center; margin-top: 12px;">
+        Actividad diseñada para microclase · 1° Medio B · Historia, Geografía y Ciencias Sociales
+    </p>
+
+</div>
+
+<script>
+    (function() {
+        'use strict';
+
+        // ─── CONFIGURACIÓN ────────────────────────────────────────────────
+        // Eventos correctos en orden cronológico (más antiguo a más reciente)
+        const EVENTOS_CORRECTOS = [
+            "Batalla de Lircay",
+            "Constitución de 1833",
+            "Muerte de Diego Portales"
+        ];
+
+        // Respuestas correctas V/F (Verdadero = true, Falso = false)
+        const VF_CORRECTO = [false, false, true]; // 1-Falso, 2-Falso, 3-Verdadero
+
+        // ─── ESTADO ──────────────────────────────────────────────────────
+        let eventos = [];          // array de nombres (se desordenará al inicio)
+        let ordenUsuario = [];     // índices en el orden actual (array de números)
+        let respuestasVF = [];     // array de booleanos (selección del usuario) o null
+        let revisado = false;
+
+        // ─── DOM REFS ────────────────────────────────────────────────────
+        const timelineList = document.getElementById('timeline-list');
+        const feedbackDiv = document.getElementById('feedback');
+        const feedbackContenido = document.getElementById('feedback-contenido');
+        const btnRevisar = document.getElementById('btn-revisar');
+        const textareaAbierta = document.getElementById('respuesta-abierta');
+
+        // ─── INICIALIZACIÓN ──────────────────────────────────────────────
+        function init() {
+            // Desordenar eventos
+            eventos = [...EVENTOS_CORRECTOS];
+            shuffleArray(eventos);
+            ordenUsuario = eventos.map((_, i) => i); // [0,1,2] en el orden actual
+
+            renderTimeline();
+            renderVF();
+            revisado = false;
+            feedbackDiv.classList.remove('visible');
+            // Limpiar colores previos
+            document.querySelectorAll('.timeline-item').forEach(el => {
+                el.classList.remove('correcto', 'incorrecto');
+            });
+            // Habilitar botones VF
+            document.querySelectorAll('.btn-vf').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('seleccionado', 'correcto', 'incorrecto');
+            });
+            // Limpiar selecciones VF
+            respuestasVF = [null, null, null];
+        }
+
+        // ─── UTILITY ──────────────────────────────────────────────────────
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+        }
+
+        // ─── RENDER LÍNEA DE TIEMPO ──────────────────────────────────────
+        function renderTimeline() {
+            timelineList.innerHTML = '';
+            ordenUsuario.forEach((idx, pos) => {
+                const nombre = eventos[idx];
+                const div = document.createElement('div');
+                div.className = 'timeline-item';
+                div.dataset.pos = pos;
+                div.dataset.idx = idx;
+
+                const span = document.createElement('span');
+                span.className = 'evento-texto';
+                span.textContent = nombre;
+
+                const acciones = document.createElement('div');
+                acciones.className = 'orden-acciones';
+
+                // Botón subir
+                const btnUp = document.createElement('button');
+                btnUp.className = 'btn-flecha';
+                btnUp.innerHTML = '↑';
+                btnUp.setAttribute('aria-label', 'Subir');
+                btnUp.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    moverEvento(pos, -1);
+                });
+
+                // Botón bajar
+                const btnDown = document.createElement('button');
+                btnDown.className = 'btn-flecha';
+                btnDown.innerHTML = '↓';
+                btnDown.setAttribute('aria-label', 'Bajar');
+                btnDown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    moverEvento(pos, 1);
+                });
+
+                // Deshabilitar flechas si es necesario (se actualiza después)
+                acciones.appendChild(btnUp);
+                acciones.appendChild(btnDown);
+                div.appendChild(span);
+                div.appendChild(acciones);
+                timelineList.appendChild(div);
+            });
+            actualizarBotonesFlechas();
+        }
+
+        function actualizarBotonesFlechas() {
+            const items = timelineList.querySelectorAll('.timeline-item');
+            items.forEach((item, pos) => {
+                const btns = item.querySelectorAll('.btn-flecha');
+                const up = btns[0];
+                const down = btns[1];
+                if (pos === 0) up.disabled = true;
+                else up.disabled = false;
+                if (pos === items.length - 1) down.disabled = true;
+                else down.disabled = false;
+            });
+        }
+
+        function moverEvento(pos, direccion) {
+            if (revisado) return; // no permitir cambios después de revisar
+            const nuevaPos = pos + direccion;
+            if (nuevaPos < 0 || nuevaPos >= ordenUsuario.length) return;
+            // Intercambiar
+            [ordenUsuario[pos], ordenUsuario[nuevaPos]] = [ordenUsuario[nuevaPos], ordenUsuario[pos]];
+            renderTimeline();
+            // Limpiar feedback si estaba visible
+            feedbackDiv.classList.remove('visible');
+            revisado = false;
+            // Quitar marcas de corrección
+            document.querySelectorAll('.timeline-item').forEach(el => {
+                el.classList.remove('correcto', 'incorrecto');
+            });
+        }
+
+        // ─── RENDER V/F ──────────────────────────────────────────────────
+        function renderVF() {
+            // Los botones ya están en el HTML, solo asignamos eventos una vez
+            document.querySelectorAll('.vf-item').forEach((item, idx) => {
+                const botones = item.querySelectorAll('.btn-vf');
+                botones.forEach(btn => {
+                    btn.removeEventListener('click', handlerVF);
+                    btn.addEventListener('click', handlerVF);
+                });
+            });
+        }
+
+        function handlerVF(e) {
+            if (revisado) return;
+            const btn = e.currentTarget;
+            const item = btn.closest('.vf-item');
+            const idx = parseInt(item.dataset.idx);
+            const valor = btn.dataset.vf === 'V'; // true = Verdadero
+            // Desmarcar otros en el mismo grupo
+            const hermanos = item.querySelectorAll('.btn-vf');
+            hermanos.forEach(b => b.classList.remove('seleccionado'));
+            btn.classList.add('seleccionado');
+            respuestasVF[idx] = valor;
+        }
+
+        // ─── REVISAR ──────────────────────────────────────────────────────
+        function revisar() {
+            if (revisado) return;
+            revisado = true;
+
+            // 1. Corregir línea de tiempo
+            const items = timelineList.querySelectorAll('.timeline-item');
+            let aciertosTimeline = 0;
+            items.forEach((item, pos) => {
+                const idx = parseInt(item.dataset.idx);
+                const nombre = eventos[idx];
+                const correcto = (nombre === EVENTOS_CORRECTOS[pos]);
+                if (correcto) {
+                    item.classList.add('correcto');
+                    item.classList.remove('incorrecto');
+                    aciertosTimeline++;
+                } else {
+                    item.classList.add('incorrecto');
+                    item.classList.remove('correcto');
+                }
+            });
+
+            // 2. Corregir V/F
+            let aciertosVF = 0;
+            document.querySelectorAll('.vf-item').forEach((item, idx) => {
+                const seleccion = respuestasVF[idx];
+                const correcto = VF_CORRECTO[idx];
+                const botones = item.querySelectorAll('.btn-vf');
+                botones.forEach(btn => {
+                    btn.disabled = true;
+                    const valor = btn.dataset.vf === 'V';
+                    if (seleccion === null) {
+                        // No seleccionado: no marcar
+                        return;
+                    }
+                    if (valor === correcto && valor === seleccion) {
+                        btn.classList.add('correcto');
+                        btn.classList.remove('incorrecto');
+                        aciertosVF++;
+                    } else if (valor === seleccion && valor !== correcto) {
+                        btn.classList.add('incorrecto');
+                        btn.classList.remove('correcto');
+                    } else {
+                        // botón no seleccionado pero correcto: no se marca
+                    }
+                });
+            });
+
+            // 3. Mostrar feedback
+            const totalTimeline = EVENTOS_CORRECTOS.length;
+            const totalVF = VF_CORRECTO.length;
+            let mensaje = `<p><span class="acierto">✅ Línea de tiempo:</span> ${aciertosTimeline} de ${totalTimeline} correctos.</p>`;
+            mensaje += `<p><span class="acierto">✅ Verdadero/Falso:</span> ${aciertosVF} de ${totalVF} correctos.</p>`;
+            if (aciertosTimeline === totalTimeline && aciertosVF === totalVF) {
+                mensaje += `<p style="color: #1a7a4a; font-weight: 600;">¡Excelente! Has respondido todo correctamente.</p>`;
+            } else {
+                mensaje += `<p style="color: #b13e3e; font-weight: 500;">Revisa tus respuestas y conversa con tu compañero sobre las diferencias.</p>`;
+            }
+            feedbackContenido.innerHTML = mensaje;
+            feedbackDiv.classList.add('visible');
+
+            // Deshabilitar flechas
+            document.querySelectorAll('.btn-flecha').forEach(b => b.disabled = true);
+        }
+
+        // ─── EVENTOS ──────────────────────────────────────────────────────
+        btnRevisar.addEventListener('click', revisar);
+
+        // ─── INICIO ──────────────────────────────────────────────────────
+        init();
+
+        // Permitir reiniciar (oculto, pero útil para pruebas)
+        // Si se desea, se puede agregar un botón oculto con doble clic en el título.
+        // Por ahora, solo se inicializa una vez.
+
+        // Exponer función para reiniciar si es necesario (no usada en producción)
+        window.reiniciarActividad = function() {
+            init();
+            feedbackDiv.classList.remove('visible');
+            revisado = false;
+            document.querySelectorAll('.btn-flecha').forEach(b => b.disabled = false);
+            document.querySelectorAll('.btn-vf').forEach(b => {
+                b.disabled = false;
+                b.classList.remove('seleccionado', 'correcto', 'incorrecto');
+            });
+            respuestasVF = [null, null, null];
+            textareaAbierta.value = '';
+        };
+
+    })();
+</script>
+
+</body>
+</html>
